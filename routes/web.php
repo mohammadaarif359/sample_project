@@ -20,20 +20,22 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');*/
 
 // web route
-Route::get('/','PageController@home')->name('home');
-Route::get('/about','PageController@about')->name('about');
-Route::get('/contact','PageController@contact')->name('contact');
-Route::get('/privacy-policy','PageController@privacyPolicy')->name('privacy-policy');
-Route::post('/contact-inquiry','PageController@contactInquiry')->name('contact-inquiry');
+
+// product and cart
+Route::get('/', 'ProductController@index')->name('home');  
+Route::get('cart', 'ProductController@cart')->name('cart');
+Route::get('add-to-cart/{id}', 'ProductController@addToCart')->name('add.to.cart');
+Route::patch('update-cart', 'ProductController@update')->name('update.cart');
+Route::delete('remove-from-cart', 'ProductController@remove')->name('remove.from.cart');
+
+// checkout
+Route::get('/checkout', 'OrderController@index');
+Route::post('/order', 'OrderController@order');
 
 // admin login route
 Route::get('/login','Admin\AuthController@showLoginForm')->name('login');
 Route::post('/login','Admin\AuthController@login')->name('login');
 Route::get('/logout', 'Admin\AuthController@logout')->name('logout');
-Route::get('/password/request','Admin\ForgotPasswordController@passwordRequest')->name('password.request');
-Route::post('/password/email','Admin\ForgotPasswordController@passwordRequestEmail')->name('password.email');
-Route::get('/password/reset/{token}','Admin\ForgotPasswordController@passwordReset')->name('password.reset');
-Route::post('/password/update','Admin\ForgotPasswordController@passwordResetUpdate')->name('password.update');
 
 // admin after login route
 Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function(){
@@ -43,31 +45,17 @@ Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function(){
 	
 	// user
 	Route::get('/user','Admin\UserController@index')->name('user');
-	Route::get('/user/add','Admin\UserController@add')->name('user.add');
-	Route::post('/user/store','Admin\UserController@store')->name('user.store');
-	Route::get('/user/edit/{id}','Admin\UserController@edit')->name('user.edit');
-	Route::post('/user/update','Admin\UserController@update')->name('user.update');
-	Route::get('/user/delete/{id}','Admin\UserController@delete')->name('user.delete');
-	Route::get('/user/export','Admin\UserController@export')->name('user.export');
 	
-	// push notification
-	Route::get('/notification','Admin\NotificationController@index')->name('notification');
-	Route::get('/notification/add','Admin\NotificationController@add')->name('notification.add');
-	Route::post('/notification/store','Admin\NotificationController@store')->name('notification.store');
-	Route::get('/notification/edit/{id}','Admin\NotificationController@edit')->name('notification.edit');
-	Route::post('/notification/update','Admin\NotificationController@update')->name('notification.update');
-	Route::get('/notification/delete/{id}','Admin\NotificationController@delete')->name('notification.delete');
+	// product
+	Route::get('/product','Admin\ProductController@index')->name('product');
+	Route::get('/product/add','Admin\ProductController@add')->name('product.add');
+	Route::post('/product/store','Admin\ProductController@store')->name('product.store');
+	Route::get('/product/edit/{id}','Admin\ProductController@edit')->name('product.edit');
+	Route::post('/product/update','Admin\ProductController@update')->name('product.update');
+	Route::get('/product/delete/{id}','Admin\ProductController@delete')->name('product.delete');
 	
-	// cms
-	Route::get('/cms-page','Admin\CmsPageController@index')->name('cms-page');
-	Route::get('/cms-page/add','Admin\CmsPageController@add')->name('cms-page.add');
-	Route::post('/cms-page/store','Admin\CmsPageController@store')->name('cms-page.store');
-	Route::get('/cms-page/edit/{id}','Admin\CmsPageController@edit')->name('cms-page.edit');
-	Route::post('/cms-page/update','Admin\CmsPageController@update')->name('cms-page.update');
-	Route::get('/cms-page/delete','Admin\CmsPageController@delete')->name('cms-page.delete');
-	
-	// module
-	Route::match(['get', 'post', 'options'], 'module/{module}', 'Admin\ModuleController@index')->name('module');
-	Route::get('/module/{module}/export','Admin\ModuleController@export')->name('module.export');
+	// order
+	Route::get('/order','Admin\OrderController@index')->name('order');
+	Route::get('/order/{id}','Admin\OrderController@detail')->name('order.deatil');
 	
 });

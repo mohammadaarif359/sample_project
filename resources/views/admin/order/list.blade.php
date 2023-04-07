@@ -6,7 +6,7 @@
 	<div class="col-12">
 	  <div class="card">
 		<div class="card-header">
-		  <h3 class="card-title">Users</h3>
+		  <h3 class="card-title">Orders</h3>
 		</div>
 		<!-- /.card-header -->
 		<div class="card-body">
@@ -16,9 +16,11 @@
 						<tr>
 							<th>Name</th>
 							<th>Email</th>
-							<th>Mobile</th>
+							<th>Mobile</th>	
+							<th>Adress</th>
+							<th>Total</th>
 							<th>Created At</th>
-							<th>Status</th>
+							<th>Deatils</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -42,15 +44,22 @@
     var table = $('#example1').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('admin.user') }}",
+        ajax: "{{ route('admin.order') }}",
         columns: [
             {data: 'name', name: 'name'},
-            {data: 'email', name: 'email'},
+            {data: 'email', name: 'image'},
             {data: 'mobile', name: 'mobile'},
+			{data: 'address', name: 'address'},
+			{data: 'total', name: 'total'},
 			{data: 'created_at.display', name: 'created_at.display'},
-			{data: 'status', name: 'status'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
+	$('.filter-input').keypress(function(){
+        table.column($(this).data('column'))
+             .search($(this).val())
+             .draw();
+	});
   });
 </script>	
 @endsection

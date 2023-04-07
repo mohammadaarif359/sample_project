@@ -6,7 +6,7 @@
 	<div class="col-12">
 	  <div class="card">
 		<div class="card-header">
-		  <h3 class="card-title">Users</h3>
+		  <h3 class="card-title">Order Deatil</h3>
 		</div>
 		<!-- /.card-header -->
 		<div class="card-body">
@@ -15,10 +15,10 @@
 					<thead>
 						<tr>
 							<th>Name</th>
-							<th>Email</th>
-							<th>Mobile</th>
+							<th>Price</th>
+							<th>Quantity</th>	
+							<th>Total</th>
 							<th>Created At</th>
-							<th>Status</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -38,19 +38,22 @@
 <script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
 <script>
-	$(function () {
-    var table = $('#example1').DataTable({
+	var table = $('#example1').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('admin.user') }}",
-        columns: [
+		ajax: window.location.href,
+		columns: [
             {data: 'name', name: 'name'},
-            {data: 'email', name: 'email'},
-            {data: 'mobile', name: 'mobile'},
+            {data: 'price', name: 'price'},
+            {data: 'quantity', name: 'quantity'},
+			{data: 'total', name: 'total'},
 			{data: 'created_at.display', name: 'created_at.display'},
-			{data: 'status', name: 'status'},
         ]
     });
-  });
+	$('.filter-input').keypress(function(){
+        table.column($(this).data('column'))
+             .search($(this).val())
+             .draw();
+	});
 </script>	
 @endsection

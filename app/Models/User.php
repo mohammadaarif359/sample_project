@@ -46,16 +46,6 @@ class User extends Authenticatable
     {
         return $this->profile_photo ? asset('storage/users/'.$this->profile_photo)  : "";
     }
-	/* user otp relation */
-	public function user_otp()
-    {
-        return $this->hasMany(OtpVerification::class,'user_id','id');
-    }
-	/* user device relation */
-	public function user_device()
-    {
-        return $this->hasMany(UserDevice::class,'user_id','id');
-    }
 	public function roles()
     {	
 		return $this->belongsToMany('App\Models\Role');

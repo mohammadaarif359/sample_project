@@ -67,10 +67,10 @@ return [
             'url' => env('APP_URL') . '/users',
             'visibility' => 'public',
         ],
-		'notifications' => [
+		'products' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/notifications'),
-            'url' => env('APP_URL') . '/notifications',
+            'root' => storage_path('app/public/products'),
+            'url' => env('APP_URL') . '/products',
             'visibility' => 'public',
         ],
 
